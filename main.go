@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/Lis1337/easy_restaurant/app"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	app.HelloWorld()
 }

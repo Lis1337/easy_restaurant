@@ -11,6 +11,6 @@ FROM ubuntu:latest
 COPY --from=builder /src /src
 RUN chmod +x /src
 
-CMD ["./src/app/app"]
+CMD ["./src/main"]
 #ENV PORT=8080
 #EXPOSE $PORT

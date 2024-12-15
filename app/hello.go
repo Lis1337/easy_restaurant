@@ -1,8 +1,8 @@
-package main
+package app
 
 import "fmt"
 
-func main() {
+func HelloWorld() {
 	var res string
 	res = "Hello, world!@#"
 	fmt.Println(res)
