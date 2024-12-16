@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/go/Dockerfile
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    container_name: app
+    networks:
+      - app
+      - postgres
+
+  postgres:
+    env_file:
+      - .env
+    image: postgres:14.15-alpine3.21
+    depends_on:
+      - app
+    restart: unless-stopped
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    user: "1000:1000"
+    volumes:
+      - .docker/postgres:/var/lib/postgresql/data
+    networks:
+      - app
+      - postgres
+
+networks:
+  app:
+    name: app
+  postgres:
+    name: postgres

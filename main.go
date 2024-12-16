@@ -1,9 +1,15 @@
 package main
 
 import (
-	"github.com/Lis1337/easy_restaurant/app"
+	"fmt"
+	"net/http"
 )
 
 func main() {
-	app.HelloWorld()
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, Docker with net/http!")
+	})
+
+	fmt.Println("Starting server on :8000")
+	http.ListenAndServe(":8000", nil)
 }
