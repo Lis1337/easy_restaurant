@@ -1,8 +1,8 @@
 FROM golang:alpine AS builder
 LABEL authors="lis4991@gmail.com"
 WORKDIR /app
-#COPY go.mod go.sum .
 COPY go.mod .
+COPY go.sum .
 COPY . .
 RUN go build -o main .
 

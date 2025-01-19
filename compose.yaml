@@ -3,18 +3,19 @@ services:
     build:
       context: .
       dockerfile: .docker/go/Dockerfile
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     restart: unless-stopped
     container_name: app
     networks:
-      - app
-      - postgres
+      - my_network
 
   postgres:
     env_file:
       - .env
-    image: postgres:14.15-alpine3.21
+    image: postgres:17.2-alpine3.21
     depends_on:
       - app
     restart: unless-stopped
@@ -24,16 +25,17 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5432"
-    user: "1000:1000"
+      - "5430:5432"
     volumes:
-      - .docker/postgres:/var/lib/postgresql/data
+      - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - postgres-data:/var/lib/postgresql/data:rw
     networks:
-      - app
-      - postgres
+      - my_network
 
 networks:
-  app:
-    name: app
-  postgres:
-    name: postgres
+  my_network:
+    name: my_network
+    driver: bridge
+
+volumes:
+  postgres-data:

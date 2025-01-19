@@ -9,6 +9,8 @@ build:
 	$(compose) build
 dry-build:
 	$(compose) build --dry-run
+rebuild: down build up
+recreate: down up
 
 app-exec:
 	$(docker) exec -it app sh
