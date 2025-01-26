@@ -13,6 +13,6 @@ rebuild: down build up
 recreate: down up
 
 app-exec:
-	$(docker) exec -it app sh
+	$(docker) exec -it app bash
 postgres-exec:
 	$(docker) exec -it postgres sh
