@@ -17,4 +17,6 @@ COPY --from=builder /app/main .
 
 RUN chmod +x ./main
 
+USER 1000:1000
+
 CMD ["./main"]

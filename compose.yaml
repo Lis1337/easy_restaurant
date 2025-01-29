@@ -8,7 +8,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./app/db/migrations:/app/db/migrations
+      - ./config/db/migrations:/config/db/migrations
     restart: unless-stopped
     container_name: app
     networks:
@@ -30,7 +30,7 @@ services:
       - "5430:5432"
     volumes:
       - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-      - ./app/db/data:/var/lib/postgresql/data:rw
+      - postgres-data:/var/lib/postgresql/data:rw
     networks:
       - my_network
 
@@ -39,5 +39,5 @@ networks:
     name: my_network
     driver: bridge
 
-#volumes:
-#  postgres-data:
+volumes:
+  postgres-data:
