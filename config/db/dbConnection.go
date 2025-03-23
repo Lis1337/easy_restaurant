@@ -29,6 +29,13 @@ func connectDb() {
 	fmt.Println("db connected!")
 }
 
+func closeCon() {
+	err := db.Close()
+	if err != nil {
+		panic(err)
+	}
+}
+
 func getPsqlInfo() string {
 	psqlInfo := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",

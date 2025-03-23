@@ -1,32 +1,26 @@
 package db
 
 import (
+	"database/sql"
 	"log"
 )
 
-func init() {
+func ExecuteSql(sql string, args ...any) (*sql.Rows, error) {
 	connectDb()
-}
 
-func ExecuteSql(sqlReq string) ([]string, error) {
-	rows, err := db.Query(sqlReq)
+	stmt, err := db.Prepare(sql)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
 
-	result := make([]string, 0)
-	for rows.Next() {
-		var id, text string
-		if err := rows.Scan(&id, &text); err != nil {
-			log.Fatal(err)
-		}
-		result = append(result, id+text)
-	}
+	defer stmt.Close()
 
-	if err := rows.Err(); err != nil {
+	rows, err := stmt.Query(args...)
+	if err != nil {
 		log.Fatal(err)
 	}
 
-	return result, err
+	defer closeCon()
+
+	return rows, err
 }
